@@ -110,7 +110,7 @@ export default function Footer() {
                 <circle cx="16" cy="16" r="4" fill="#C29B40" opacity="0.4" />
               </svg>
               <span className="font-cinzel text-or text-base font-semibold tracking-wider">
-                L&apos;Odyssée des Scribes
+                Mytheo
               </span>
             </div>
             <p className="font-montserrat text-creme/40 text-sm leading-relaxed max-w-xs">
@@ -173,7 +173,7 @@ export default function Footer() {
           style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
         >
           <p className="font-montserrat text-creme/25 text-xs text-center sm:text-left">
-            © 2025 L&apos;Odyssée des Scribes · Tous droits réservés
+            © 2025 Mytheo · Tous droits réservés
           </p>
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             {legalLinks.map((link) => (

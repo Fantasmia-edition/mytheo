@@ -37,7 +37,7 @@ export default function Navbar() {
             <circle cx="16" cy="16" r="4" fill="#C29B40" opacity="0.4" />
           </svg>
           <span className="font-cinzel text-or text-lg font-semibold tracking-wider">
-            L&apos;Odyssée des Scribes
+            Mytheo
           </span>
         </div>
 

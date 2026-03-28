@@ -14,8 +14,8 @@ const MONTHS = [
   { num: 8,  label: 'Août',      icon: '🏰', title: 'La Citadelle Cachée', desc: 'Son architecture naît de ses dessins.', color: '#C29B40' },
   { num: 9,  label: 'Septembre', icon: '🌙', title: 'La Nuit du Grand Choix', desc: 'Le tournant de son histoire — il décide seul.', color: '#e879f9' },
   { num: 10, label: 'Octobre',   icon: '💀', title: 'L\'Ennemi Nommé', desc: 'Il donne un visage au mal — et l\'affronte.', color: '#fb7185' },
-  { num: 11, label: 'Novembre',  icon: '📖', title: 'L\'Épilogue du Scribe', desc: 'Le dernier chapitre qu\'il aura jamais écrit.', color: '#fbbf24', special: 'Impression du Livre' },
-  { num: 12, label: 'Décembre',  icon: '🎄', title: 'La Légende est Complète', desc: 'Son roman relié arrive sous le sapin.', color: '#34d399', special: '🎁 Livre de Noël' },
+  { num: 11, label: 'Mois 11',   icon: '📖', title: 'L\'Épilogue du Héros', desc: 'Le dernier chapitre qu\'il aura jamais écrit.', color: '#fbbf24', special: 'Impression du Livre' },
+  { num: 12, label: 'Mois 12',   icon: '✨', title: 'La Légende est Complète', desc: 'Son roman relié, unique au monde, arrive dans un coffret.', color: '#34d399', special: '✨ Livre Final' },
 ]
 
 export default function JourneySection() {

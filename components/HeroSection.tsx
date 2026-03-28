@@ -263,23 +263,22 @@ export default function HeroSection() {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full w-fit mb-6"
               style={{ border: '1px solid rgba(194,155,64,0.45)', background: 'rgba(194,155,64,0.08)' }}>
-              <span className="text-or text-xs font-cinzel tracking-widest">✦ Édition Limitée 2025</span>
+              <span className="text-or text-xs font-cinzel tracking-widest">✦ Aventure 2026 · Places limitées</span>
             </motion.div>
 
             {/* H1 */}
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1 }}
               className="font-cinzel text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6">
-              <span className="text-creme">Il reçoit</span><br />
-              <span className="gold-shimmer">sa mission.</span><br />
-              <span className="text-creme">Il écrit la suite.</span><br />
-              <span className="text-creme/80 text-4xl md:text-5xl lg:text-6xl">Il tient le livre.</span>
+              <span className="text-creme">Une mission secrète l'attend.</span><br />
+              <span className="gold-shimmer">Un monde tremble.</span><br />
+              <span className="text-creme/90 text-4xl md:text-5xl lg:text-6xl">Seul votre enfant peut le sauver.</span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
               className="font-montserrat text-creme/70 text-lg md:text-xl leading-relaxed mb-8 max-w-md">
-              Chaque mois, une lettre scellée. Chaque mois,{' '}
-              <span className="text-or font-semibold">ses choix façonnent la suite</span>.
+              Chaque mois, une enveloppe scellée arrive avec une mission que lui seul peut accomplir.{' '}
+              <span className="text-or font-semibold">Ses écrits et ses dessins façonnent la suite</span>.
               À la fin de l&apos;aventure, son histoire devient un vrai livre à son nom.
             </motion.p>
 
@@ -303,6 +302,17 @@ export default function HeroSection() {
                 Découvrir le concept
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3V13M3 8L8 13L13 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </a>
+            </motion.div>
+
+            {/* Reassurance parent */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.7 }}
+              className="flex flex-wrap gap-3 mb-8">
+              {['📵 Sans écran', '✍️ Créativité & écriture', '🚚 Livraison incluse', '🔓 Sans engagement'].map((b) => (
+                <span key={b} className="font-montserrat text-creme/50 text-xs px-3 py-1.5 rounded-full"
+                  style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}>
+                  {b}
+                </span>
+              ))}
             </motion.div>
 
             {/* Social proof */}

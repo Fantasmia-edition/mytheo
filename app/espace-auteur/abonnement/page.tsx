@@ -43,7 +43,7 @@ export default function AbonnementPage() {
       <nav className="relative z-20 border-b px-6 py-4"
         style={{ borderColor: 'rgba(255,255,255,0.05)', background: 'rgba(7,13,24,0.8)', backdropFilter: 'blur(12px)' }}>
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-cinzel text-or font-bold text-base tracking-wide">✦ L'Odyssée des Scribes</Link>
+          <Link href="/" className="font-cinzel text-or font-bold text-base tracking-wide">✦ Mytheo</Link>
           <Link href="/espace-auteur" className="font-montserrat text-creme/40 text-sm hover:text-creme/70 transition-colors">Espace Auteur</Link>
         </div>
       </nav>

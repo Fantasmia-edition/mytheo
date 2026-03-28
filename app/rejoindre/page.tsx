@@ -236,7 +236,7 @@ function RejoindreInner() {
       {/* Navbar */}
       <nav className="relative z-20 px-6 py-5 flex items-center justify-between max-w-6xl mx-auto">
         <Link href="/" className="font-cinzel text-or font-bold text-lg tracking-wide hover:text-or/80 transition-colors">
-          ✦ L'Odyssée des Scribes
+          ✦ Mytheo
         </Link>
         <Link href="/" className="font-montserrat text-creme/40 text-sm hover:text-creme/70 transition-colors hidden sm:block">
           ← Retour à l'accueil
@@ -625,7 +625,7 @@ function RejoindreInner() {
 
               <p className="font-montserrat text-creme/55 text-sm leading-relaxed mb-8 max-w-md mx-auto">
                 Un email de bienvenue a été envoyé à <strong className="text-creme/70">{parentEmail}</strong>.
-                L'Atelier des Scribes prépare le premier chapitre de l'aventure.
+                L'Atelier Mytheo prépare le premier chapitre de l'aventure.
               </p>
 
               <Link href="/espace-auteur"

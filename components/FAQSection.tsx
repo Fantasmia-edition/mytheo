@@ -5,24 +5,24 @@ import { useRef, useState } from 'react'
 
 const faqs = [
   {
-    q: 'Comment nos scribes travaillent-ils ?',
-    a: 'Chaque mois, votre enfant reçoit une lettre de mission et remplit son formulaire papier — il dessine, décrit ses choix, invente ses personnages. Une fois que vous scannez le document via notre application, notre Atelier des Scribes prend le relais : nos outils de création avancés analysent les dessins et les textes pour générer des illustrations professionnelles qui reflètent fidèlement les idées de votre enfant. Chaque chapitre est ensuite relu et finalisé à la main par notre équipe éditoriale avant impression.',
+    q: 'Comment fonctionne Mytheo concrètement ?',
+    a: 'Chaque mois, votre enfant reçoit une lettre de mission scellée. Il dessine, décrit ses choix, invente ses personnages sur le formulaire papier. Vous photographiez le document depuis votre téléphone et l\'envoyez en 30 secondes via le site Mytheo. Notre équipe prend le relais : les dessins et textes de votre enfant sont transformés en illustrations professionnelles, fidèles à sa vision. Chaque chapitre est relu et finalisé à la main avant impression.',
   },
   {
     q: 'Est-ce pour tous les âges ?',
-    a: "L'Odyssée des Scribes est conçue pour les enfants de 7 à 12 ans — l'âge idéal pour entrer dans la magie de la lecture et de la créativité écrite. Les missions s'adaptent automatiquement au niveau de lecture indiqué lors de l'inscription.",
+    a: "Mytheo est conçue pour les enfants de 7 à 12 ans — l'âge idéal pour entrer dans la magie de la lecture et de la créativité écrite. Les missions s'adaptent automatiquement au niveau de lecture indiqué lors de l'inscription.",
   },
   {
-    q: 'Comment fonctionne le scan des formulaires ?',
-    a: "Notre application mobile gratuite (iOS & Android) vous permet de scanner le formulaire papier de votre enfant en moins de 30 secondes. Elle reconnaît automatiquement les dessins et les textes, et vous confirme que la mission a bien été reçue par l'Atelier. Vous recevez une notification lorsque le chapitre est prêt.",
+    q: 'Comment envoyer le formulaire de mission ?',
+    a: "Depuis votre téléphone, photographiez le formulaire rempli par votre enfant et déposez-le sur le site Mytheo en moins de 30 secondes. Vous recevez un email de confirmation, puis une notification dès que le chapitre illustré est prêt.",
   },
   {
     q: 'Puis-je mettre en pause ou résilier mon abonnement ?',
     a: "Absolument. Votre abonnement est sans engagement. Vous pouvez le mettre en pause, changer de formule ou l'annuler à tout moment depuis votre espace membre, sans frais ni pénalité. Nous vous demandons simplement un préavis de 15 jours pour le mois en cours.",
   },
   {
-    q: 'Dans quel délai reçoit-on le livre de Noël ?',
-    a: "Le livre final est fabriqué et expédié en novembre pour garantir une livraison avant le 24 décembre. Les abonnés actifs depuis au moins 3 mois recevront automatiquement leur livre relié inclus dans leur formule.",
+    q: 'Quand reçoit-on le livre final ?',
+    a: "Le livre est fabriqué à la clôture de l'aventure et expédié dans un coffret cadeau. Les abonnés actifs depuis au moins 3 mois le reçoivent automatiquement, inclus dans leur formule.",
   },
   {
     q: "La lettre de bienvenue est-elle vraiment gratuite ?",

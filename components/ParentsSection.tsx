@@ -41,12 +41,12 @@ const TESTIMONIALS = [
     stars: 5,
   },
   {
-    text: "Le livre de Noël l'a fait pleurer de joie. Il a reconnu chaque personnage qu'il avait inventé. C'était son œuvre, vraiment.",
+    text: "Quand le livre final est arrivé, il a reconnu chaque personnage qu'il avait inventé. Il a pleuré de joie. C'était son œuvre, vraiment.",
     name: 'Romain T.', role: 'Papa de Nathan, 11 ans',
     stars: 5,
   },
   {
-    text: "Je cherchais un cadeau qui ne soit pas un écran de plus. L'Odyssée des Scribes, c'est exactement ce que je voulais — du merveilleux sans schéma.",
+    text: "Je cherchais un cadeau qui ne soit pas un écran de plus. Mytheo, c'est exactement ce que je voulais — du merveilleux, de l'écriture, et zéro tablette.",
     name: 'Clara M.', role: 'Maman de Zoé, 8 ans',
     stars: 5,
   },
@@ -77,7 +77,7 @@ export default function ParentsSection() {
             <span className="gold-shimmer">Pas du numérique.</span>
           </h2>
           <p className="font-montserrat text-creme/60 text-lg max-w-2xl mx-auto">
-            L'Odyssée des Scribes a été conçue pour que les parents soient aussi fiers que leurs enfants sont enchantés.
+            Ce que les parents adorent autant que leurs enfants — et pourquoi.
           </p>
         </motion.div>
 

@@ -280,7 +280,7 @@ function IllustratedPanel() {
       </div>
 
       <div className="px-5 pb-4 text-center">
-        <p className="font-montserrat text-or/55 text-xs tracking-wide">✦ L'Atelier des Scribes crée son chapitre illustré</p>
+        <p className="font-montserrat text-or/55 text-xs tracking-wide">✦ L'Atelier Mytheo crée son chapitre illustré</p>
       </div>
     </div>
   )
@@ -289,8 +289,8 @@ function IllustratedPanel() {
 const steps = [
   { num: '01', title: 'La lettre de mission arrive', desc: 'Une enveloppe scellée à la cire atterrit dans sa boîte aux lettres.', color: '#C29B40' },
   { num: '02', title: 'L\'enfant écrit et dessine', desc: 'Il choisit son chemin, décrit ses alliés, invente ses monstres.', color: '#a78bfa' },
-  { num: '03', title: 'Le parent scanne', desc: 'Un simple scan depuis notre app suffit. 30 secondes.', color: '#34d399' },
-  { num: '04', title: 'Le chapitre prend vie', desc: 'L\'Atelier des Scribes transforme ses idées en illustrations pro.', color: '#f87171' },
+  { num: '03', title: 'Le parent envoie', desc: 'Une simple photo depuis votre téléphone. 30 secondes.', color: '#34d399' },
+  { num: '04', title: 'Le chapitre prend vie', desc: 'L\'équipe Mytheo transforme ses idées en illustrations pro.', color: '#f87171' },
 ]
 
 export default function CoAuteurSection() {

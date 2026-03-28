@@ -17,12 +17,12 @@ const montserrat = Montserrat({
 })
 
 export const metadata: Metadata = {
-  title: "L'Odyssée des Scribes — L'aventure dont votre enfant tient la plume",
+  title: "Mytheo — L'aventure dont votre enfant tient la plume",
   description:
     "Le premier courrier interactif où votre enfant co-écrit son aventure mois après mois. Recevez votre Kit de Bienvenue gratuitement.",
   keywords: "livre enfant, abonnement livre, cadeau enfant, histoire personnalisée, livre personnalisé",
   openGraph: {
-    title: "L'Odyssée des Scribes",
+    title: "Mytheo",
     description: "Offrez-lui l'aventure dont vous avez toujours rêvé.",
     type: 'website',
   },

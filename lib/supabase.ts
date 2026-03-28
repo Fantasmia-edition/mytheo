@@ -1,31 +1,37 @@
 /**
- * lib/supabase.ts
- * ──────────────────────────────────────────────────────────────────────────────
- * Client Supabase pour L'Odyssée des Scribes.
- *
- * Variables d'environnement requises (.env.local) :
- *   NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
- *   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
- *   SUPABASE_SERVICE_ROLE_KEY=eyJ...   (côté serveur uniquement)
- *
- * TODO : npm install @supabase/supabase-js
- * ──────────────────────────────────────────────────────────────────────────────
+ * lib/supabase.ts — Mytheo
  */
+import { createClient } from '@supabase/supabase-js'
 
-// import { createClient } from '@supabase/supabase-js'
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-// ── Types ────────────────────────────────────────────────────────────────────
+// ── Client public (navigateur + Server Components) ────────────────────────────
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// ── Client admin (API routes serveur uniquement — jamais côté client) ─────────
+export const supabaseAdmin = createClient(
+  supabaseUrl,
+  process.env.SUPABASE_SERVICE_ROLE_KEY ?? supabaseAnonKey,
+  { auth: { autoRefreshToken: false, persistSession: false } }
+)
+
+// ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface ScribeProfile {
   id: string
   parent_id: string
   child_name: string
   child_age: number
+  avatar_name: string
   power: string
   companion: string
   destiny: string
   plan: 'patient' | 'intrepide'
-  start_date: string
+  address_line1: string
+  address_city: string
+  address_zip: string
+  address_country: string
   stripe_customer_id: string | null
   stripe_subscription_id: string | null
   created_at: string
@@ -61,45 +67,41 @@ export interface Message {
   created_at: string
 }
 
-// ── Client (décommenté quand les credentials sont disponibles) ────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
-/*
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-// Service role client (routes API serveur uniquement)
-export const supabaseAdmin = createClient(
-  supabaseUrl,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { autoRefreshToken: false, persistSession: false } }
-)
-*/
-
-// ── Helpers (à implémenter) ───────────────────────────────────────────────────
-
-export async function getScribeProfile(_userId: string): Promise<ScribeProfile | null> {
-  // TODO: return supabase.from('scribe_profiles').select('*').eq('parent_id', userId).single()
-  console.warn('[Supabase] getScribeProfile — pas encore connecté')
-  return null
+export async function getScribeProfile(userId: string): Promise<ScribeProfile | null> {
+  const { data, error } = await supabase
+    .from('scribe_profiles')
+    .select('*')
+    .eq('parent_id', userId)
+    .single()
+  if (error) { console.error('[Supabase] getScribeProfile:', error.message); return null }
+  return data
 }
 
-export async function getChapters(_scribeId: string): Promise<Chapter[]> {
-  // TODO: return supabase.from('chapters').select('*').eq('scribe_id', scribeId).order('chapter_number')
-  console.warn('[Supabase] getChapters — pas encore connecté')
-  return []
+export async function getChapters(scribeId: string): Promise<Chapter[]> {
+  const { data, error } = await supabase
+    .from('chapters')
+    .select('*')
+    .eq('scribe_id', scribeId)
+    .order('chapter_number')
+  if (error) { console.error('[Supabase] getChapters:', error.message); return [] }
+  return data ?? []
 }
 
-export async function createMissionUpload(_data: Omit<MissionUpload, 'id' | 'created_at'>): Promise<MissionUpload | null> {
-  // TODO: return supabase.from('mission_uploads').insert(data).select().single()
-  console.warn('[Supabase] createMissionUpload — pas encore connecté')
-  return null
+export async function createMissionUpload(uploadData: Omit<MissionUpload, 'id' | 'created_at'>): Promise<MissionUpload | null> {
+  const { data, error } = await supabaseAdmin
+    .from('mission_uploads')
+    .insert(uploadData)
+    .select()
+    .single()
+  if (error) { console.error('[Supabase] createMissionUpload:', error.message); return null }
+  return data
 }
 
-export async function uploadFileToStorage(_bucket: string, _path: string, _file: File): Promise<string | null> {
-  // TODO: const { data, error } = await supabase.storage.from(bucket).upload(path, file)
-  // TODO: return supabase.storage.from(bucket).getPublicUrl(data.path).data.publicUrl
-  console.warn('[Supabase] uploadFileToStorage — pas encore connecté')
-  return null
+export async function uploadFileToStorage(bucket: string, path: string, file: File): Promise<string | null> {
+  const { data, error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true })
+  if (error) { console.error('[Supabase] uploadFileToStorage:', error.message); return null }
+  const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path)
+  return urlData.publicUrl
 }

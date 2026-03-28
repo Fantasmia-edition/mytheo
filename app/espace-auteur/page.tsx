@@ -162,7 +162,7 @@ function ChapterItem({ ch, index }: { ch: typeof MOCK_CHAPTERS[0]; index: number
             </div>
           ) : ch.status === 'current' ? (
             <div className="space-y-2">
-              <p className="font-montserrat text-creme/50 text-xs">L'Atelier des Scribes travaille sur ce chapitre. Envoyez votre mission pour le faire avancer.</p>
+              <p className="font-montserrat text-creme/50 text-xs">L'Atelier Mytheo travaille sur ce chapitre. Envoyez votre mission pour le faire avancer.</p>
               <Link href="/espace-auteur/upload"
                 className="inline-block font-cinzel text-xs font-bold px-4 py-2 rounded-lg transition-all"
                 style={{ background: 'rgba(194,155,64,0.12)', color: '#C29B40', border: '1px solid rgba(194,155,64,0.25)' }}>
@@ -211,7 +211,7 @@ export default function EspaceAuteurPage() {
       <nav className="relative z-20 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)', background: 'rgba(7,13,24,0.8)', backdropFilter: 'blur(12px)' }}>
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="font-cinzel text-or font-bold text-base tracking-wide">
-            ✦ L'Odyssée des Scribes
+            ✦ Mytheo
           </Link>
           <div className="flex items-center gap-4">
             {unread > 0 && (
@@ -238,7 +238,7 @@ export default function EspaceAuteurPage() {
             <div className="flex-1">
               <p className="font-cinzel text-or font-semibold text-sm mb-1">Votre Kit de Bienvenue est en route !</p>
               <p className="font-montserrat text-creme/55 text-xs leading-relaxed">
-                L'Atelier des Scribes prépare le kit de <strong className="text-creme/75">{p.childName}</strong>.
+                L'Atelier Mytheo prépare le kit de <strong className="text-creme/75">{p.childName}</strong>.
                 Livraison estimée sous <strong className="text-creme/75">5 à 7 jours ouvrés</strong>.
                 Dès réception, revenez ici pour uploader la première mission.
               </p>
@@ -377,7 +377,7 @@ export default function EspaceAuteurPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2 mb-1">
                         <p className="font-cinzel text-xs font-semibold" style={{ color: 'rgba(167,139,250,0.8)' }}>
-                          L'Atelier des Scribes
+                          L'Atelier Mytheo
                         </p>
                         <p className="font-montserrat text-creme/30 text-[11px] flex-shrink-0">{msg.date}</p>
                       </div>

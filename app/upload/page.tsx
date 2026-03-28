@@ -132,7 +132,7 @@ export default function UploadPage() {
       {/* ── Minimal Navbar ── */}
       <nav className="relative z-20 px-6 py-5 flex items-center justify-between max-w-5xl mx-auto">
         <Link href="/" className="font-cinzel text-or font-bold text-lg tracking-wide hover:text-or/80 transition-colors">
-          ✦ L'Odyssée des Scribes
+          ✦ Mytheo
         </Link>
         <a href="mailto:contact@odyssee-scribes.fr"
           className="font-montserrat text-creme/50 text-sm hover:text-or transition-colors hidden sm:block">
@@ -155,7 +155,7 @@ export default function UploadPage() {
             <span className="gold-shimmer">L'aventure commence ici.</span>
           </h1>
           <p className="font-montserrat text-creme/60 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-6">
-            Votre enfant a reçu sa mission. Scannez ou photographiez le formulaire rempli — l'Atelier des Scribes s'occupe du reste.
+            Votre enfant a reçu sa mission. Scannez ou photographiez le formulaire rempli — l'Atelier Mytheo s'occupe du reste.
           </p>
 
           {/* Ce qui se passe ensuite */}
@@ -396,7 +396,7 @@ export default function UploadPage() {
 
                 <p className="font-cinzel text-or text-xs tracking-[0.3em] uppercase mb-3">✦ Mission transmise</p>
                 <h2 className="font-cinzel text-creme text-3xl md:text-4xl font-bold mb-4 leading-tight">
-                  L'Atelier des Scribes<br />a reçu la mission de{' '}
+                  L'Atelier Mytheo<br />a reçu la mission de{' '}
                   <span className="gold-shimmer">{childName || 'votre enfant'}</span>.
                 </h2>
                 <p className="font-montserrat text-creme/60 text-base max-w-md mx-auto leading-relaxed mb-8">

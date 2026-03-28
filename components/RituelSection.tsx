@@ -221,7 +221,7 @@ export default function RituelSection() {
             <span className="gold-shimmer">par un rituel.</span>
           </h2>
           <p className="font-montserrat text-creme/60 text-lg max-w-2xl mx-auto">
-            Avant la première lettre, votre enfant reçoit sa <em className="text-or not-italic font-semibold">Convocation des Scribes</em> — et complète
+            Avant la première lettre, votre enfant reçoit sa <em className="text-or not-italic font-semibold">Convocation Mytheo</em> — et complète
             son Rituel d'Apparition pour forger son identité de héros.
           </p>
         </motion.div>
@@ -242,12 +242,12 @@ export default function RituelSection() {
               <p className="font-cinzel text-or text-sm mb-1">✦ Le Rituel d'Apparition</p>
               <p className="font-montserrat text-creme/55 text-sm leading-relaxed">
                 Dans son Kit de Bienvenue, l'enfant reçoit un parchemin de fondation. Il y inscrit à la plume 4 éléments qui deviendront
-                le socle immuable de <span className="text-creme/80">son</span> univers.
+                les 4 piliers de <span className="text-creme/80">son</span> identité de héros — gravés pour toute l&apos;aventure.
               </p>
             </motion.div>
 
             <div className="space-y-4">
-              <FormField label="Nom de Scribe" placeholder="Le nom que les légendes retiendront…" icon="📜" color="#C29B40" delay={0.1} />
+              <FormField label="Nom de Héros" placeholder="Le nom que les légendes retiendront…" icon="📜" color="#C29B40" delay={0.1} />
               <FormField label="Pouvoir Secret" placeholder="Ce que seul lui sait faire…" icon="⚡" color="#a78bfa" delay={0.2} />
               <FormField label="Animal Compagnon" placeholder="La créature qui l'accompagne…" icon="🦊" color="#34d399" delay={0.3} />
               <FormField label="Phrase de Destin" placeholder="Les mots qui guident son chemin…" icon="✨" color="#f9a8d4" delay={0.4} />
@@ -268,7 +268,7 @@ export default function RituelSection() {
                   <p className="font-cinzel text-creme/80 text-sm font-semibold mb-1">Ces éléments deviennent permanents</p>
                   <p className="font-montserrat text-creme/50 text-sm leading-relaxed">
                     Son Nom de Scribe figurera sur chaque enveloppe. Son Compagnon apparaîtra dans ses chapitres.
-                    Sa Phrase de Destin sera gravée sur son livre de Noël.
+                    Sa Phrase de Destin sera gravée sur son livre final.
                   </p>
                 </div>
               </div>
