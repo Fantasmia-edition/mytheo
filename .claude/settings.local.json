@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(python3 -c \"import sys,json; logs=json.loads\\(sys.stdin.read\\(\\)\\); errors=[l for l in logs if l.get\\(''''type''''\\)==''''error'''']; print\\(json.dumps\\(errors[:5], indent=2\\)\\)\")",
+      "Bash(npx tsc:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
