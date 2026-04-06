@@ -5,7 +5,7 @@ import { useRef } from 'react'
 
 function LetterScene() {
   return (
-    <div className="relative" style={{ width: 400, height: 480 }}>
+    <div className="relative w-full max-w-[400px]" style={{ height: 480 }}>
 
       {/* Warm room atmosphere */}
       <div className="absolute inset-0 rounded-2xl overflow-hidden"

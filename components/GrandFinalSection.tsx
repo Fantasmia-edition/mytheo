@@ -28,7 +28,7 @@ const LIGHTS = [
 
 function ChristmasScene() {
   return (
-    <div className="relative" style={{ width: 380, height: 500 }}>
+    <div className="relative w-full max-w-[380px]" style={{ height: 500 }}>
       {/* Scene frame */}
       <div className="absolute inset-0 rounded-2xl overflow-hidden"
         style={{

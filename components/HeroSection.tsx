@@ -25,7 +25,7 @@ function Sparkle({ x, y, size, delay, color = '#C29B40' }: {
 /* ── The envelope hero illustration ── */
 function EnvelopeHero() {
   return (
-    <div className="relative flex justify-center items-center" style={{ height: 420 }}>
+    <div className="relative flex justify-center items-center w-full overflow-hidden" style={{ height: 420 }}>
 
       {/* Outer magical glow rings */}
       <motion.div className="absolute rounded-full pointer-events-none"
@@ -63,7 +63,7 @@ function EnvelopeHero() {
         className="relative z-10"
         style={{ filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.5)) drop-shadow(0 0 30px rgba(194,155,64,0.2))' }}
       >
-        <svg width="380" height="260" viewBox="0 0 380 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="100%" height="auto" viewBox="0 0 380 260" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: 380 }}>
           <defs>
             <linearGradient id="envBody" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#FEFAE0" />
