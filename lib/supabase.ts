@@ -20,14 +20,18 @@ export const supabaseAdmin = createClient(
 
 export interface ScribeProfile {
   id: string
-  parent_id: string
+  parent_id: string | null
+  parent_email: string
+  parent_name: string
   child_name: string
   child_age: number
+  /** Pseudo d'aventurier choisi dans le funnel (ex. "Zael le Courageux") */
   avatar_name: string
   power: string
   companion: string
   destiny: string
   plan: 'patient' | 'intrepide'
+  status: 'pending_payment' | 'active' | 'paused' | 'cancelled'
   address_line1: string
   address_city: string
   address_zip: string
@@ -76,6 +80,16 @@ export async function getScribeProfile(userId: string): Promise<ScribeProfile | 
     .eq('parent_id', userId)
     .single()
   if (error) { console.error('[Supabase] getScribeProfile:', error.message); return null }
+  return data
+}
+
+export async function getScribeProfileByEmail(email: string): Promise<ScribeProfile | null> {
+  const { data, error } = await supabaseAdmin
+    .from('scribe_profiles')
+    .select('*')
+    .eq('parent_email', email)
+    .single()
+  if (error) { console.error('[Supabase] getScribeProfileByEmail:', error.message); return null }
   return data
 }
 

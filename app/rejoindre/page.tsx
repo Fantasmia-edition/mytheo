@@ -48,7 +48,7 @@ function AvatarCard({ name, power, companion, destiny, large = false }:
       {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-between p-4 pt-0">
         <div className="flex items-center justify-between">
-          <span className="font-cinzel text-or text-[10px] tracking-[0.2em] uppercase opacity-60">✦ Scribe</span>
+          <span className="font-cinzel text-or text-[10px] tracking-[0.2em] uppercase opacity-60">✦ Aventurier</span>
         </div>
         <div className="space-y-2">
           <div className="text-center -mt-2">
@@ -156,7 +156,7 @@ const COMPANIONS = [
   { label: 'Phénix de cendres', icon: '🕊️' }, { label: 'Licorne des glaces', icon: '🦄' },
 ]
 const CHAPTERS_PREVIEW = [
-  { n: 1, title: "L'Éveil du Scribe", icon: '✨', color: '#C29B40' },
+  { n: 1, title: "L'Éveil de l'Aventurier", icon: '✨', color: '#C29B40' },
   { n: 2, title: "Le Serment des Flammes", icon: '🔥', color: '#f87171' },
   { n: 3, title: "La Carte des Âmes Perdues", icon: '🗺️', color: '#34d399' },
   { n: 4, title: "Le Pont des Brumes", icon: '🌫️', color: '#a78bfa' },
@@ -176,6 +176,7 @@ function RejoindreInner() {
 
   // Avatar state
   const [childName, setChildName] = useState('')
+  const [pseudo, setPseudo] = useState('')
   const [childAge, setChildAge] = useState('')
   const [power, setPower] = useState('')
   const [customPower, setCustomPower] = useState('')
@@ -193,12 +194,14 @@ function RejoindreInner() {
   const [postalCode, setPostalCode] = useState('')
 
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const effectivePower = POWERS.find(p => p.label === power) ? power : customPower
   const effectiveCompanion = COMPANIONS.find(c => c.label === companion) ? companion : customCompanion
 
   const canNext: Record<number, boolean> = {
-    1: !!(childName.trim() && childAge),
+    1: !!(childName.trim() && childAge && pseudo.trim()),
     2: !!(effectivePower.trim()),
     3: !!(effectiveCompanion.trim()),
     4: destiny.trim().length >= 10,
@@ -215,9 +218,46 @@ function RejoindreInner() {
     { n: 6, label: 'Aventure' },
   ]
 
-  const handleNext = () => {
-    if (step < totalSteps) setStep(s => s + 1)
-    else { setSubmitted(true) }
+  const handleNext = async () => {
+    if (step < totalSteps) {
+      setStep(s => s + 1)
+    } else {
+      // Étape 6 : appel API + redirect Stripe
+      setLoading(true)
+      setSubmitError('')
+      try {
+        const res = await fetch('/api/subscriptions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'create',
+            plan,
+            parentEmail,
+            parentName,
+            childName,
+            childAge: parseInt(childAge) || 0,
+            pseudo: pseudo.trim() || childName,
+            power: effectivePower,
+            companion: effectiveCompanion,
+            destiny,
+            addressLine1: address,
+            addressCity: city,
+            addressZip: postalCode,
+            addressCountry: 'France',
+          }),
+        })
+        const data = await res.json()
+        if (data.redirectUrl) {
+          window.location.href = data.redirectUrl
+        } else {
+          setSubmitError(data.error ?? 'Une erreur est survenue. Veuillez réessayer.')
+          setLoading(false)
+        }
+      } catch {
+        setSubmitError('Impossible de contacter le serveur. Vérifiez votre connexion.')
+        setLoading(false)
+      }
+    }
   }
 
   // Scroll top on step change
@@ -250,7 +290,7 @@ function RejoindreInner() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center pt-4 pb-8">
             <span className="font-cinzel text-or text-xs tracking-[0.3em] uppercase">✦ Rituel d'Apparition</span>
             <h1 className="font-cinzel text-3xl md:text-4xl font-bold text-creme mt-3 mb-3 leading-tight">
-              Crée l'identité de ton <span className="gold-shimmer">Scribe</span>
+              Crée l'identité de l'<span className="gold-shimmer">Aventurier</span>
             </h1>
             <p className="font-montserrat text-creme/45 text-sm max-w-md mx-auto">
               Ces choix façonneront chaque chapitre. Le Kit de Bienvenue sera envoyé à votre adresse dès l'inscription.
@@ -298,9 +338,16 @@ function RejoindreInner() {
                 {/* ── Étape 1 : Identité ── */}
                 {step === 1 && (
                   <motion.div key="s1" initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.35 }}>
-                    <StepCard title="Qui est le Scribe ?" icon="✨">
+                    <StepCard title="Qui est l'Aventurier ?" icon="✨">
                       <Field label="Prénom de l'enfant" placeholder="Comment s'appelle ton héros ?"
                         value={childName} onChange={setChildName} hint="Ce prénom apparaîtra dans chaque chapitre de l'aventure." />
+                      <Field
+                        label="Pseudo d'aventurier"
+                        placeholder="Ex : Zael le Courageux, Lyra des Brumes…"
+                        value={pseudo}
+                        onChange={setPseudo}
+                        hint="Ce nom d'aventure apparaîtra dans chaque chapitre — l'enfant peut l'inventer !"
+                      />
                       <div>
                         <label className="font-cinzel text-creme/50 text-[11px] tracking-wider uppercase block mb-2">Âge</label>
                         <div className="flex flex-wrap gap-2">
@@ -391,14 +438,14 @@ function RejoindreInner() {
                           <h2 className="font-cinzel text-creme text-2xl font-bold mt-2 mb-1">
                             {childName} est prêt{childAge && parseInt(childAge) > 10 ? 'e' : ''} pour la légende.
                           </h2>
-                          <p className="font-montserrat text-creme/50 text-sm">Voici ce qui attend ton Scribe dans les 12 prochains mois.</p>
+                          <p className="font-montserrat text-creme/50 text-sm">Voici ce qui attend <strong>{pseudo || childName}</strong> dans les 12 prochains mois.</p>
                         </motion.div>
                       </div>
 
                       {/* Avatar + identité */}
                       <div className="flex flex-col sm:flex-row items-center gap-6 px-6 pb-6">
                         <div className="flex-shrink-0">
-                          <AvatarCard name={childName} power={effectivePower} companion={effectiveCompanion} destiny={destiny} />
+                          <AvatarCard name={pseudo || childName} power={effectivePower} companion={effectiveCompanion} destiny={destiny} />
                         </div>
                         <div className="space-y-3 flex-1">
                           {[
@@ -553,18 +600,21 @@ function RejoindreInner() {
               </AnimatePresence>
 
               {/* Navigation */}
+              {submitError && (
+                <p className="font-montserrat text-red-400/80 text-xs mt-3 text-center">{submitError}</p>
+              )}
               <div className="flex justify-between items-center mt-5">
                 {step > 1
                   ? <button onClick={() => setStep(s => s - 1)} className="font-montserrat text-creme/40 text-sm hover:text-creme/70 transition-colors">← Retour</button>
                   : <div />}
-                <button onClick={handleNext} disabled={!canNext[step]}
+                <button onClick={handleNext} disabled={!canNext[step] || loading}
                   className="px-8 py-3.5 font-cinzel font-bold text-sm tracking-wider rounded-xl transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
                   style={{
                     background: canNext[step] ? 'linear-gradient(135deg, #C29B40, #E8D080)' : 'rgba(194,155,64,0.15)',
                     color: canNext[step] ? '#0D1B2A' : 'rgba(194,155,64,0.4)',
                     boxShadow: canNext[step] ? '0 4px 20px rgba(194,155,64,0.3)' : 'none',
                   }}>
-                  {step === 5 ? "L'aventure m'attend → " : step === totalSteps ? 'Sceller l\'aventure ✦' : 'Continuer →'}
+                  {loading ? 'Redirection vers le paiement…' : step === 5 ? "L'aventure m'attend →" : step === totalSteps ? 'Sceller l\'aventure ✦' : 'Continuer →'}
                 </button>
               </div>
             </div>
@@ -572,7 +622,7 @@ function RejoindreInner() {
             {/* ── Avatar card sticky (desktop) ── */}
             {step < 5 && (
               <div className="hidden lg:flex flex-col items-center gap-4 sticky top-8">
-                <AvatarCard name={childName} power={effectivePower} companion={effectiveCompanion} destiny={destiny} />
+                <AvatarCard name={pseudo || childName} power={effectivePower} companion={effectiveCompanion} destiny={destiny} />
                 <p className="font-montserrat text-creme/25 text-xs text-center max-w-[220px] leading-relaxed">
                   Ta carte d'identité se révèle au fil de tes choix. Elle sera imprimée dans le livre final.
                 </p>

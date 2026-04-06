@@ -1,6 +1,6 @@
 /**
  * POST /api/subscriptions
- * - action "create"  → profil Supabase + session Stripe Checkout
+ * - action "create"  → Auth Supabase + profil + session Stripe Checkout
  * - action "portal"  → URL Stripe Billing Portal
  */
 
@@ -18,7 +18,8 @@ export async function POST(req: NextRequest) {
       parentName?: string
       childName?: string
       childAge?: number
-      avatarName?: string
+      /** Pseudo d'aventurier (avatar_name en base) */
+      pseudo?: string
       power?: string
       companion?: string
       destiny?: string
@@ -41,24 +42,47 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Paramètres manquants.' }, { status: 400 })
       }
 
-      // 1. Créer le profil Supabase (statut pending_payment)
+      // 1. Créer (ou récupérer) le compte Supabase Auth
+      let parentId: string | null = null
+      try {
+        // Tenter de créer l'utilisateur
+        const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
+          email: parentEmail,
+          user_metadata: { parent_name: parentName ?? '' },
+          email_confirm: true, // Confirmé auto — le magic link sera envoyé après paiement
+        })
+
+        if (createError) {
+          // L'utilisateur existe déjà → récupérer son ID
+          const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers()
+          const existing = existingUsers?.users?.find(u => u.email === parentEmail)
+          parentId = existing?.id ?? null
+        } else {
+          parentId = newUser?.user?.id ?? null
+        }
+      } catch (err) {
+        console.error('[Auth] createUser:', err)
+      }
+
+      // 2. Créer le profil Supabase (statut pending_payment)
       const { data: profile, error: dbError } = await supabaseAdmin
         .from('scribe_profiles')
         .upsert({
+          parent_id:       parentId,
           parent_email:    parentEmail,
           parent_name:     parentName ?? '',
           child_name:      childName,
           child_age:       childAge ?? 0,
-          avatar_name:     body.avatarName ?? childName,
+          avatar_name:     body.pseudo?.trim() || childName,
           power:           body.power ?? '',
           companion:       body.companion ?? '',
           destiny:         body.destiny ?? '',
           plan,
+          status:          'pending_payment',
           address_line1:   body.addressLine1 ?? '',
           address_city:    body.addressCity ?? '',
           address_zip:     body.addressZip ?? '',
           address_country: body.addressCountry ?? 'France',
-          status:          'active',
         }, { onConflict: 'parent_email' })
         .select()
         .single()
@@ -67,7 +91,7 @@ export async function POST(req: NextRequest) {
         console.error('[Supabase] upsert scribe_profiles:', dbError.message)
       }
 
-      // 2. Créer la session Stripe Checkout
+      // 3. Créer la session Stripe Checkout
       const checkoutUrl = await createCheckoutSession({
         plan,
         parentEmail,
@@ -76,7 +100,7 @@ export async function POST(req: NextRequest) {
         cancelUrl:  `${baseUrl}/rejoindre?canceled=true`,
       })
 
-      // 3. Notifier l'admin
+      // 4. Notifier l'admin (inscription démarrée, paiement en attente)
       await notifyAdminNewSubscription({
         parentName:  parentName ?? '',
         parentEmail,
@@ -87,6 +111,7 @@ export async function POST(req: NextRequest) {
       })
 
       if (!checkoutUrl) {
+        // Pas de Stripe configuré (dev sans clés) → rediriger directement
         return NextResponse.json({
           success: true,
           redirectUrl: `${baseUrl}/espace-auteur`,

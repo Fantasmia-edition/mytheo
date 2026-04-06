@@ -6,6 +6,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { constructWebhookEvent } from '@/lib/stripe'
 import { supabaseAdmin } from '@/lib/supabase'
+import { sendWelcomeWithMagicLink, notifyAdminNewSubscription } from '@/lib/email'
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 export async function POST(req: NextRequest) {
   const body      = await req.text()
@@ -24,7 +27,7 @@ export async function POST(req: NextRequest) {
   try {
     switch (event.type) {
 
-      // ── Paiement réussi → activer le profil ──
+      // ── Paiement réussi → activer le profil + envoyer magic link ──
       case 'checkout.session.completed': {
         const session = event.data.object as {
           customer?: string
@@ -32,8 +35,10 @@ export async function POST(req: NextRequest) {
           customer_email?: string
           metadata?: { childName?: string; plan?: string }
         }
+
         if (session.customer_email) {
-          await supabaseAdmin
+          // 1. Activer le profil
+          const { data: profile } = await supabaseAdmin
             .from('scribe_profiles')
             .update({
               stripe_customer_id:     session.customer ?? null,
@@ -41,6 +46,47 @@ export async function POST(req: NextRequest) {
               status: 'active',
             })
             .eq('parent_email', session.customer_email)
+            .select()
+            .single()
+
+          // 2. Notification admin — paiement confirmé
+          if (profile) {
+            await notifyAdminNewSubscription({
+              parentName:  profile.parent_name ?? '',
+              parentEmail: session.customer_email,
+              childName:   profile.child_name ?? '',
+              childAge:    profile.child_age ?? 0,
+              plan:        profile.plan ?? '',
+              address:     `${profile.address_line1 ?? ''}, ${profile.address_zip ?? ''} ${profile.address_city ?? ''}`,
+            })
+          }
+
+          // 3. Générer un magic link et envoyer l'email de bienvenue
+          try {
+            const { data: linkData } = await supabaseAdmin.auth.admin.generateLink({
+              type: 'magiclink',
+              email: session.customer_email,
+              options: {
+                redirectTo: `${APP_URL}/auth/callback`,
+              },
+            })
+
+            const magicLink = linkData?.properties?.action_link
+
+            if (magicLink && profile) {
+              await sendWelcomeWithMagicLink({
+                parentEmail: session.customer_email,
+                parentName:  profile.parent_name ?? '',
+                childName:   profile.child_name ?? '',
+                pseudo:      profile.avatar_name ?? profile.child_name ?? '',
+                plan:        profile.plan ?? '',
+                magicLink,
+              })
+            }
+          } catch (emailErr) {
+            console.error('[Webhook] Erreur magic link / email:', emailErr)
+            // Non bloquant — le profil est déjà activé
+          }
         }
         break
       }
@@ -50,6 +96,7 @@ export async function POST(req: NextRequest) {
         const sub = event.data.object as {
           id: string
           status: string
+          items?: { data: Array<{ price: { id: string } }> }
         }
         await supabaseAdmin
           .from('scribe_profiles')
